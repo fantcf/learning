@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>035-vue中的set方法</title>
+  <script type="text/javascript" src="../../vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <h2>学校名称：{{school.name}}</h2>
+  <h2>学校地址：{{school.address}}</h2>
+  <hr>
+  <h1>学生信息</h1>
+  <button @click="addSex">添加一个性别属性，默认值是男</button>
+  <h2>姓名：{{student.name}}</h2>
+  <h2>性别：{{student.sex}}</h2>
+  <h2>年龄：{{student.age.rAge}}</h2>
+  <h2>朋友们</h2>
+  <ul>
+    <li v-for="(f, index) in student.friends" :key="index">{{f.name}}-{{f.age}}</li>
+  </ul>
+</div>
+<script>
+  // 这里想在外侧给student对象添加sex属性（vm._data.student.sex = '男'），是有问题的
+  // 可以使用Vue.set(vm._data.student, 'sex', '男');
+  // 也可以使用vm.$set(vm.student, 'sex', '男');
+  // 注意：不允许直接给vm添加，也不允许直接给vm._data添加；
+  Vue.config.productionTip = false; // 阻止vue在启动时生成生产提示。
+  const vm = new Vue({
+    el: '#root',
+    data: {
+      school: {
+        name: '尚硅谷',
+        address: '北京'
+      },
+      student: {
+        name: 'tom',
+        age: {
+          rAge: 30,
+          sAge: 28,
+        },
+        friends: [
+          {name: 'jerry', age: 18},
+          {name: 'tony', age: 19},
+        ]
+      }
+    },
+    methods: {
+      addSex() {
+        this.$set(this.student, 'sex', '男')
+      }
+    },
+    computed: {},
+  })
+</script>
+</body>
+</html>

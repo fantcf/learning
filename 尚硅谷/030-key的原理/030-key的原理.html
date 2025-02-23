@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>030-key的原理</title>
+    <script type="text/javascript" src="../../vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>人员列表（遍历数组）</h2>
+        <button @click.once="add">添加一个老刘</button>
+        <ul>
+            <li v-for="p in persons" :key="p.id">
+                {{p.name}}-{{p.age}}
+                <input type="text">
+            </li>
+        </ul>
+        <img src="../00-assests/01-遍历列表时key的作用.png" style="width: 650px;height: 550px;">
+        <img src="../00-assests/02-key有什么作用？.png" style="width: 650px;height: 550px;">
+    </div>
+<script>
+    Vue.config.productionTip = false; // 阻止vue在启动时生成生产提示。
+    new Vue({
+        el: '#root',
+        data: {
+            persons: [
+                {id: '001', name: '老a', age: 18},
+                {id: '002', name: '老b', age: 18},
+                {id: '003', name: '老c', age: 18},
+            ]
+        },
+        methods: {
+            add() {
+                const d = {id: '004', name: '老刘', age: 18};
+                this.persons.unshift(d);
+            }
+        },
+        computed: {},
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>014-事件的基本使用</title>
+  <script type="text/javascript" src="../../vue.js"></script>
+</head>
+<body>
+<div id="root">
+  <!-- 注意：$event无论放在哪里，都是可以的 -->
+  <button @click="showInfo1">点我提示信息1</button>
+  <button @click="showInfo2(66, $event)">点我提示信息2</button>
+  <button @click="showInfo3($event, 11)">点我提示信息3</button>
+</div>
+<script>
+  Vue.config.productionTip = false; // 阻止vue在启动时生成生产提示。
+  new Vue({
+    el: '#root',
+    data: {},
+    methods: {
+      showInfo1(e) {
+        console.log(e)
+      },
+      showInfo2(num, e) {
+        console.log(num, e)
+      },
+      showInfo3(e, num) {
+        console.log(e, num)
+      },
+    },
+    computed: {},
+  })
+</script>
+</body>
+</html>

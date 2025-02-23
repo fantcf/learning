@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>025-computed和watch的区别</title>
+  <script type="text/javascript" src="../../vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    姓：<input type="text" v-model="firstName"><br>
+    名：<input type="text" v-model="lastName"><br>
+    学生1：<input type="text" v-model="studentName1"><br>
+    学生2：{{studentName2}}<br>
+  </div>
+<script>
+  /**
+   * computed和watch之间的区别：
+   *  1. computed能完成的功能，watch都可以完成；
+   *  2. watch支持异步操作，但是computed不支持异步操作；
+   *  3. handler:function() {}，不可以用handler: () => {}；
+   */
+  Vue.config.productionTip = false; // 阻止vue在启动时生成生产提示。
+  new Vue({
+    el: '#root',
+    data: {
+      studentName2: '',
+      firstName: '1',
+      lastName: '2',
+    },
+    computed: {
+      studentName1() {
+        console.log('computed的get被调用了')
+        setTimeout(() => {
+          return this.firstName + ' ' + this.lastName;
+        }, 1000)
+        // 执行失败，原因：computed中，没有办法在异步任务中返回结果；
+      }
+    },
+    watch: {
+      firstName:{
+        immediate: true,
+        handler: function(val) {
+          console.log(val, this.lastName)
+          setTimeout(() => {
+            this.studentName2 = val + '-' + this.lastName;
+            console.log(this.studentName2)
+          }, 1000)
+        }
+      },
+      lastName:{
+        immediate: true,
+        handler: function(val) {
+          console.log(val, this.firstName)
+          setTimeout(() => {
+            this.studentName2 = this.firstName + '-' + val;
+            console.log(this.studentName2)
+          }, 1000)
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>

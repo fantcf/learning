@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>026-绑定class样式</title>
+    <script type="text/javascript" src="../../vue.js"></script>
+    <style>
+        * {
+            margin-bottom: 10px;
+        }
+        .basic {
+            width: 350px;
+            height: 200px;
+            border: 1px solid #999;
+        }
+        .happy {
+            background-color: pink;
+        }
+        .sad {
+            background-color: gray;
+        }
+        .normal {
+            background-color: antiquewhite;
+        }
+        div {
+            float: left;
+            margin-right: 10px;
+        }
+        .border-change {
+            border: 1px solid mediumvioletred;
+        }
+        .border-radius {
+            border-radius: 60px;
+        }
+        .text-change {
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <!-- 绑定style样式：对象内联方式 -->
+    <div class="basic" :style="{fontSize: `${fontSize}px`}">对象内联方式</div>
+
+    <!-- 绑定style样式：对象方式 -->
+    <div class="basic" :style="styleObj">对象方式</div>
+
+    <!-- 绑定style样式：数组方式 -->
+    <div class="basic" :style="[styleObj, styleObj2]">数组方式</div>
+</div>
+<script>
+    /**
+     * 注意：
+     *   1. data中，如果一个数据依赖另一个数据，需要在created或者mounted中进行初始化，否则会得到一个undefined；
+     */
+    const baseClasses = ['border-change', 'border-radius', 'text-change'];
+    Vue.config.productionTip = false; // 阻止vue在启动时生成生产提示。
+    new Vue({
+        el: '#root',
+        data: {
+            mood: '',
+            moodText: '',
+            fontSize: 40,
+            styleObj: {
+                fontSize: '20px',
+                color: 'orange',
+            },
+            styleObj2: {
+              backgroundColor: 'pink',
+            }
+        },
+        created() {
+            this.styleObj.fontSize = `${this.fontSize}px`;
+        },
+    })
+</script>
+</body>
+</html>

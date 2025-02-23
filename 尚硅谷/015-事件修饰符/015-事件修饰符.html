@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>015-事件修饰符</title>
+  <script type="text/javascript" src="../../vue.js"></script>
+  <style>
+    * {
+      margin-top: 20px;
+    }
+    ul {
+      width: 200px;
+      height: 200px;
+      background-color: skyblue;
+      overflow: auto;
+    }
+    li {
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+<div id="root">
+  <a href="http://www.baidu.com"    @click="showInfo">点我提示信息（执行默认行为，跳转至百度）</a><br>
+
+  <!-- 1. prevent：阻止默认事件（常用）； -->
+  <a href="http://www.baidu.com" @click.prevent="showInfo">点我提示信息（取消默认行为，不跳转至百度）</a>
+
+  <!-- 2. stop：阻止事件冒泡（常用）； -->
+  <div @click="showInfo" style="width: 1000px;height: 100px;background-color: skyblue;">
+    <button @click.stop="showInfo">点我提示信息（取消冒泡行为）</button>
+  </div>
+
+  <!-- 4. capture：使用事件的捕获模式；和冒泡相反的操作 -->
+  <div @click.capture="showMsg(111)" style="width: 1000px;height: 100px;background-color: skyblue;padding: 10px">
+    div1
+    <div @click="showMsg(222)" style="width: 1000px;height:70px;background-color:pink;">div2</div>
+  </div>
+
+  <!-- 5. self：只有event.target是当前操作的元素本身时，才可以触发； -->
+  <div @click.self="showInfo" style="width: 1000px;height: 100px;background-color: skyblue;">
+    <button @click="showInfo">点我提示信息（self）</button>
+  </div>
+
+  <!-- 6. passive：事件的默认行为立即执行，无需等待事件回调执行完毕； -->
+  <ul @wheel.passive="scrollUl">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+  </ul>
+</div>
+<script>
+  /**
+   * vue中的事件修饰符：
+   *    1. prevent：阻止默认事件（常用）；
+   *    2. stop：阻止事件冒泡（常用）；
+   *    3. once：事件只触发一次（常用）；
+   *    4. capture：使用事件的捕获模式；先捕获，再冒泡，支持在捕获阶段，就可以执行方法；
+   *    5. self：只有event.target是当前操作的元素本身时，才可以触发；
+   *    6. passive：事件的默认行为立即执行，无需等待事件回调执行完毕；
+   */
+
+  Vue.config.productionTip = false; // 阻止vue在启动时生成生产提示。
+  new Vue({
+    el: '#root',
+    data: {},
+    methods: {
+      showInfo() {
+        alert('a')
+      },
+      showMsg(msg) {
+        alert(msg)
+      },
+      scrollUl() {
+        for (let i = 0; i < 1000000; i++) {
+          console.log('@')
+        }
+        console.log('执行完成')
+      }
+    },
+    computed: {},
+  })
+</script>
+</body>
+</html>

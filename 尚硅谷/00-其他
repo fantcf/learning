@@ -1,0 +1,26 @@
+1. template组件，只能配合v-if，不可以配合v-show；
+    如：正确：<template v-if="a === true"></template>
+    如：错误：<template v-show="a === true"></template>
+
+2. <li v-for="(p, index) of persons" :key="index"></li>
+    注意：key值，最好不要用index，因为如果涉及到persons的增删改的话，会改变index的值；
+
+059: 一个重要的内置关系：VueComponent.prototype.__proto__ === Vue.prototype;
+为什么要有这个关系？答：让组件实例对象（vc），可以访问到Vue原型上的属性、方法。
+注意：Vue.extend(),返回的是一个VueComponent构造函数（即vc），还不是一个实例；只有当<school></school>子组件在父组件中使用的时候，才会new一个实例；
+
+
+
+
+
+
+
+
+
+
+未完成：
+037-总结vue数据检测；
+038-收集表单数据；
+039-过滤器；
+057-VueComponent构造函数；
+068-插件；

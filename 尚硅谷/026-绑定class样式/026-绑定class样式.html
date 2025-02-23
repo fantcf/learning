@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>026-绑定class样式</title>
+    <script type="text/javascript" src="../../vue.js"></script>
+    <style>
+        * {
+            margin-bottom: 10px;
+        }
+        .basic {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #999;
+        }
+        .happy {
+            background-color: pink;
+        }
+        .sad {
+            background-color: gray;
+        }
+        .normal {
+            background-color: antiquewhite;
+        }
+        div {
+            float: left;
+            margin-right: 10px;
+        }
+        .border-change {
+            border: 1px solid mediumvioletred;
+        }
+        .border-radius {
+            border-radius: 60px;
+        }
+        .text-change {
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <button @click="changeMood">切换心情</button>{{moodText}}
+
+    <!-- 绑定class样式：字符串写法，适用于-》样式类名不确定，需要动态指定 -->
+    <div class="basic" :class="mood">字符串方式</div>
+
+    <!-- 绑定class样式：数组写法，适用于-》 要绑定的个数不确定，名字也不确定 -->
+    <div class="basic" :class="classArr">数组方式</div>
+
+    <!-- 绑定class样式：对象写法，适用于-》 要绑定的个数确定，名字也确定，但要动态决定 -->
+    <div class="basic" :class="classObj">对象方式1</div>
+    <div class="basic" :class="{'border-change': isBorderChange}">对象方式2</div>
+</div>
+<script>
+    const baseClasses = ['border-change', 'border-radius', 'text-change'];
+    Vue.config.productionTip = false; // 阻止vue在启动时生成生产提示。
+    new Vue({
+        el: '#root',
+        data: {
+            mood: '',
+            moodText: '',
+            classArr: baseClasses,
+            isBorderChange: false,
+            classObj: {
+                'border-change': true,
+                'border-radius': true,
+                'text-change': true,
+            }
+        },
+        methods: {
+            changeMood() {
+                const arr = ['happy', 'sad', 'normal'];
+                const moodTextArr = ['开心', '伤心', '一般'];
+                const index = Math.floor(Math.random() * arr.length);
+                this.mood = arr[index];
+                this.moodText = moodTextArr[index];
+                const moodArrTemp = JSON.parse(JSON.stringify(baseClasses));
+                moodArrTemp.push(arr[index]);
+                this.classArr = moodArrTemp;
+                this.isBorderChange = !this.isBorderChange;
+                console.log(this.classArr)
+            }
+        },
+    })
+</script>
+</body>
+</html>

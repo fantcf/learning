@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>034-模拟一个数据检测</title>
+</head>
+<body>
+  <script>
+    // 目的：期望自己实现一个数据检测-》为data中的属性，添加setter和getter
+    let data = {
+      name: 'tom',
+      age: 18,
+    }
+    // 错误的写法：这里获取data.name的时候，会调用get方法，而get方法里面会继续获取data.name，造成无线循环；
+    // Object.defineProperty(data, 'name', {
+    //   get() {
+    //     return data.name;
+    //   },
+    //   set(val) {
+    //     data.name = val;
+    //   }
+    // })
+
+    // 正确写法：通过构造函数，传入一个原始的data，通过defineProperty给实例this添加getter和setter；
+    // 注意1：这里核心其实就是使用了两个对象：一个原始对象data；一个实例对象obs；
+    // 注意2：必须使用构造函数，否则没有this；
+    // 注意3：data和obj本来是一个东西，但是如果后面将data = obs，则data中，保存的是obs的地址；而obj依然是原来data的地址；
+    const obs = new Observer(data);
+    function Observer(obj) {
+      console.log(obj === data, this === data)   // true
+      const keys = Object.keys(obj);
+      keys.forEach((k) => {
+        Object.defineProperty(this, k, {  // 这里不能用data，原因还是一样（这里data和obj是一个东西）；
+          get() {
+            console.log(111, this, obj, data, this === data, obj === data)
+            return obj[k];
+          },
+          set(val) {
+            obj[k] = val;
+          }
+        })
+      })
+    }
+
+    // 模拟vue中的数据检测：
+    const vm = {};
+    vm._data = obs;
+    data = obs;
+    // 思考：这里为什么没有栈溢出的问题？
+    // 回答：对象特性+执行顺序 的原因；
+    // 1. 对象特性：let a = {a: 'a'}；这里a保存的不是对象，而是对象的内存地址；当a = {b: 'b'}，时，a只是改变了内存地址，但是{a: 'a'}还在；
+    // 2. 执行顺序：上述代码中，最开始data和obj是一样的，但是后面执行了data = obs，data就更新为obs的地址了，而obj还是保留了原来的地址；
+    data.name = 'a'
+    console.log(obs, data, obs === data)
+
+  </script>
+</body>
+</html>
