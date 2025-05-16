@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>04-组件</title>
+</head>
+<body>
+app1:
+<div id="app"></div>
+<hr>
+app2:
+<div id="app2"></div>
+<script src="../../../vue.js"></script>
+<script>
+  const MyButton = {
+      data() {
+          return {
+              count: 0,
+          }
+      },
+      template: `<button @click="count++">当前点击了{{count}}次</button>`
+  }
+
+  // 全局注册
+  Vue.component('MyButton', MyButton)
+  const vm = new Vue({
+      template: `
+      <div>
+        <MyButton />
+        <MyButton />
+        <MyButton />
+      </div>
+      `
+  })
+  vm.$mount('#app')
+
+  const MyInput = {
+      data() {
+          return {
+              word: 'a'
+          }
+      },
+      template: `<div><input type="text" v-model="word"/>{{word}}</div>`
+  }
+  const vm2 = new Vue({
+      // 局部注册
+      components: {MyInput},
+      template: `<div><MyInput /></div>`
+  })
+  vm2.$mount('#app2')
+</script>
+</body>
+</html>
