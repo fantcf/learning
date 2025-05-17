@@ -1,5 +1,5 @@
 <template>
-  <img :src="url" :alt="alt" :style="{width: `${size}px`, height: `${size}px`}" class="avatar-img">
+  <img :src="url" :alt="alt" :style="{width: `${size}px`, height: `${size}px`}" class="avatar-container">
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.avatar-img{
+.avatar-container{
   border-radius: 50%;
   object-fit: cover;  // 防止宽高比例不对；
   display: block;  // 防止放到行盒里被排编；
