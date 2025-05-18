@@ -83,3 +83,17 @@
   }
 </style>
 ```
+
+### 4. 补充：父组件传入src时，失效问题；
+问题描述：在TestImageLoader组件中，引入了ImageLoader组件，传入src来展示图片。  
+
+> 【无效的情况】
+> - 在父组件中，传入图片相对路径：../assets/images/09-组件练习-imageLoader占位图片.png
+> - 在父组件中，传入图的@符片路径：'@/assets/images/09-组件练习-imageLoader占位图片.png'
+> - 在子组件中，在data中，定义src，赋值为：../assets/images/09-组件练习-imageLoader占位图片.png
+> - 在子组件中，在data中，定义src，赋值为：@/assets/images/09-组件练习-imageLoader占位图片.png
+>  <hr>
+> 【有效的情况】
+> - 在父组件中，通过require传入图片：require('@/assets/images/09-组件练习-imageLoader占位图片.png')
+> - 在子组件中，在template模板中，传入图片的相对路径：../assets/images/09-组件练习-imageLoader占位图片.png
+> - 在子组件中，在template模板中，传入图片的@符路径：@/assets/images/09-组件练习-imageLoader占位图片.png

@@ -3,7 +3,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import '@/styles/global.less'
 Vue.config.productionTip = false
+import router from './router'
+
+Vue.use(router)
 
 new Vue({
-    render: h => h(App),
+    router,
+    render: h => h(App)
 }).$mount('#app')
